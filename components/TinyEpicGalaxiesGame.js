@@ -1,25 +1,25 @@
 import { styles } from '../assets/styles';
-import { Text, View } from 'react-native';
-
-import { ALL_PLANETS } from '../models/AllPlanets';
-import { Player } from '../models/Player';
+import { View } from 'react-native';
 
 import PlayerMat from './PlayerMat';
 import PlanetCard from './PlanetCard';
 import EmptyBreak from './EmptyBreak';
 
+import Dice from './Dice';
+import { Game } from '../models/Game';
+
 export default function TinyEpicGalaxiesGame() {
-  const playerColors = ['red', 'blue', 'green', 'black', 'yellow'];
-  const players = playerColors.map(color => new Player(color));
+  const game = new Game();
+  const currentPlayer = game.players[0];
 
+  const handleGetEnergy = () => {
+    console.log('pressed get energy');
+    game.acquireEnergy(currentPlayer);
+  }
 
-  const planets = ALL_PLANETS;
-  const picks = [];
-  for (let i = 0; i < 4; i++) {
-    let index = Math.floor(Math.random() * planets.length);
-    let pick = planets.splice(index, 1)[0];
-    console.log('picked planet', pick);
-    picks.push(pick);
+  const handleGetCulture = () => {
+    console.log('pressed get culture');
+    game.acquireCulture(currentPlayer);
   }
 
   return (
@@ -27,36 +27,22 @@ export default function TinyEpicGalaxiesGame() {
       <EmptyBreak />
 
       <View style={styles.planetMat}>
-        {picks.map((planet, i) => <PlanetCard key={i} planet={planet} />)}
+        {game.currentPlanets.map((planet, i) => <PlanetCard key={i} planet={planet} />)}
       </View>
 
-      <EmptyBreak />
-
       <View style={styles.playerMatContainer}>
-        {players.map((player, i) => <PlayerMat key={i} player={player} />)}
+        {game.players.map((player, i) => <PlayerMat key={i} player={player} />)}
       </View>
 
       <EmptyBreak />
 
       <View style={styles.rolledDiceContainer}>
-        <View style={styles.die}>
-          <Text style={styles.dieText}>GET %</Text>
-        </View>
-        <View style={styles.die}>
-          <Text style={styles.dieText}>GET #</Text>
-        </View>
-        <View style={styles.die}>
-          <Text style={styles.dieText}>SHIP</Text>
-        </View>
-        <View style={styles.die}>
-          <Text style={styles.dieText}>COLONY</Text>
-        </View>
-        <View style={styles.die}>
-          <Text style={styles.dieText}>DIP</Text>
-        </View>
-        <View style={styles.die}>
-          <Text style={styles.dieText}>ECO</Text>
-        </View>
+        <Dice action="GET %" clickHandler={handleGetEnergy} />
+        <Dice action="GET #" clickHandler={handleGetCulture} />
+        <Dice action="SHIP" />
+        <Dice action="COLONY" />
+        <Dice action="DIP" />
+        <Dice action="ECO" />
       </View>
     </View>
   );
