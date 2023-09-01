@@ -21,6 +21,10 @@ export default function TinyEpicGalaxiesGame({game}) {
     setState(game.toJSON());
   }
 
+  const update = () => {
+    setState(game.toJSON());
+  }
+
   const cancel = () => wrapUpdate(() => {
     game.state = GameState.ChooseDiceActions;
   });
@@ -44,7 +48,7 @@ export default function TinyEpicGalaxiesGame({game}) {
       <EmptyBreak />
 
       <View style={styles.planetMat}>
-        {state.currentPlanets.map((planet, i) => <PlanetCard key={i} game={game} planet={planet} />)}
+        {game.currentPlanets.map((planet, i) => <PlanetCard key={i} game={game} planet={planet} update={update} />)}
       </View>
 
       <View style={styles.playerMatContainer}>

@@ -66,4 +66,24 @@ export class Game {
         console.log('advance economy');
         this.state = GameState.AdvanceEconomy;
     }
+
+    orbit(planet) {
+        const position = {
+            player: this.currentPlayer(),
+            index: 0,
+        }
+
+        planet.orbitingShips.push(position);
+        this.state = GameState.ChooseDiceActions;
+    }
+
+    land(planet) {
+        const position = {
+            player: this.currentPlayer(),
+            index: 0,
+        }
+
+        planet.landedShips.push(position);
+        this.state = GameState.ChooseDiceActions;
+    }
 }

@@ -1,9 +1,9 @@
-import { styles } from '../assets/styles';
+import { colorsToStyle, styles } from '../assets/styles';
 import { Text, View, Button, TouchableNativeFeedback } from 'react-native';
 import { ProgressTypes, ResourceTypes } from '../models/Planet';
 import { GameState } from '../models/GameState';
 
-export default function PlanetCard({game, planet, players}) {
+export default function PlanetCard({game, planet, update}) {
     const renderResourceType = () => {
         if (planet.resourceType === ResourceTypes.CULTURE) {
             return '#';
@@ -20,16 +20,34 @@ export default function PlanetCard({game, planet, players}) {
         }
     }
 
-    const renderProgressSpaces = () => {
+    const renderProgressSpaces = (player) => {
         let spaces = '';
         for (let i = 0; i < planet.spaces; i++) {
             spaces += '_ ';
         }
-        return '[ ' + spaces + ']';
+        return 'orbit [ ' + spaces + ']';
     }
 
     const renderLandedShips = (player) => {
-        return '1 ship';
+        let count = 0;
+        planet.landedShips.forEach(ship => {
+            if (ship.player.color === player.color) {
+                count++;
+            }
+        });
+        return count + ' landed';
+    }
+
+    const handleOrbit = () => {
+        console.log('action orbit', planet.name);
+        game.orbit(planet);
+        update();
+    }
+
+    const handleLand = () => {
+        console.log('action land', planet.name);
+        game.land(planet);
+        update();
     }
 
     const renderActionArea = () => {
@@ -37,21 +55,20 @@ export default function PlanetCard({game, planet, players}) {
             return (
                 <View>
                     <View style={styles.planetButtonContainer}>
-                        <Button color="gray" title="orbit" />
+                        <Button color="gray" title="orbit" onPress={() => handleOrbit(planet)} />
                     </View>
                     <View style={styles.planetButtonContainer}>
-                        <Button color="gray" title="land" />
+                        <Button color="gray" title="land" onPress={() => handleLand(planet)} />
                     </View>
                 </View>
             )
         } else {
             return (
                 <View>
-                    <Text style={styles.redPlayer}>{renderLandedShips()}</Text>
-                    <Text style={styles.greenPlayer}>{renderLandedShips()}</Text>
-                    <Text style={styles.bluePlayer}>{renderLandedShips()}</Text>
-                    <Text style={styles.blackPlayer}>{renderLandedShips()}</Text>
-                    <Text style={styles.yellowPlayer}>{renderLandedShips()}</Text>
+                    {game.players.map((player, i) => {
+                        const style = colorsToStyle(player.color);
+                        return <Text key={i} style={style}>{renderLandedShips(player)}</Text>
+                    })}
                 </View>
             )
         }

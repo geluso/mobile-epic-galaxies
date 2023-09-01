@@ -32,6 +32,9 @@ export class Planet {
         this.resourceType = resourceType;
         this.points = points;
         this.text = text;
+
+        this.orbitingShips = [];
+        this.landedShips = [];
     }
 
     toJSON() {
@@ -42,6 +45,8 @@ export class Planet {
             resourceType: this.resourceType,
             points: this.points,
             text: this.text,
+            orbitingShips: [...this.orbitingShips],
+            landedShips: [...this.landedShips],
         };
     }
 }

@@ -142,10 +142,13 @@ export const styles = StyleSheet.create({
     },
   });
 
-  export const colorsToStyle = {
-    'red': styles.redPlayer,
-    'green': styles.greenPlayer,
-    'blue': styles.bluePlayer,
-    'black': styles.blackPlayer,
-    'yellow': styles.yellowPlayer,
-  };
+  export const colorsToStyle = color => {
+    const lookup = {
+      'red': styles.redPlayer,
+      'green': styles.greenPlayer,
+      'blue': styles.bluePlayer,
+      'black': styles.blackPlayer,
+      'yellow': styles.yellowPlayer,
+    };
+    return lookup[color];
+  }
