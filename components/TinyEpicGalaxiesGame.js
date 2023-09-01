@@ -1,20 +1,42 @@
 import { styles } from '../assets/styles';
-import { View } from 'react-native';
+import { View, Text } from 'react-native';
 
 import PlayerMat from './PlayerMat';
 import PlanetCard from './PlanetCard';
 import EmptyBreak from './EmptyBreak';
 
-import Dice from './Dice';
-import { Game } from '../models/Game';
 import { useState } from 'react';
+import DiceActions from './DiceActions';
+
+import { GameState } from '../models/GameState';
+import CancelableAction from './ActionAreas/CancelableAction';
 
 export default function TinyEpicGalaxiesGame({game}) {
   const [state, setState] = useState(game.toJSON());
 
+  console.log('game state:', game.state);
+
   const wrapUpdate = func => {
     func();
     setState(game.toJSON());
+  }
+
+  const cancel = () => wrapUpdate(() => {
+    game.state = GameState.ChooseDiceActions;
+  });
+
+  const renderActionArea = () => {
+    if (game.state === GameState.ChooseDiceActions) {
+      return <DiceActions wrapUpdate={wrapUpdate} game={game} />
+    } else if (game.state === GameState.SendShip) {
+      return <CancelableAction text="Pick ship destination" cancel={cancel} />
+    } else if (game.state === GameState.ChooseColony) {
+      return <CancelableAction text="Pick colony power" cancel={cancel} />
+    } else if (game.state === GameState.AdvanceDiplomacy) {
+      return <CancelableAction text="Pick planet to progress" cancel={cancel} />
+    } else if (game.state === GameState.AdvanceEconomy) {
+      return <CancelableAction text="Pick planet to progress" cancel={cancel} />
+    }
   }
 
   return (
@@ -22,7 +44,7 @@ export default function TinyEpicGalaxiesGame({game}) {
       <EmptyBreak />
 
       <View style={styles.planetMat}>
-        {state.currentPlanets.map((planet, i) => <PlanetCard key={i} planet={planet} />)}
+        {state.currentPlanets.map((planet, i) => <PlanetCard key={i} game={game} planet={planet} />)}
       </View>
 
       <View style={styles.playerMatContainer}>
@@ -31,14 +53,7 @@ export default function TinyEpicGalaxiesGame({game}) {
 
       <EmptyBreak />
 
-      <View style={styles.rolledDiceContainer}>
-        <Dice action="GET %" clickHandler={() => wrapUpdate(() => game.acquireEnergy())} />
-        <Dice action="GET #" clickHandler={() => wrapUpdate(() => game.acquireCulture())} />
-        <Dice action="SHIP" clickHandler={() => wrapUpdate(() => game.moveShip())} />
-        <Dice action="COLONY" clickHandler={() => wrapUpdate(() => game.colony())} />
-        <Dice action="DIP" clickHandler={() => wrapUpdate(() => game.advanceDiplomacy())} />
-        <Dice action="ECO" clickHandler={() => wrapUpdate(() => game.advanceEconomy())} />
-      </View>
+      {renderActionArea()}
     </View>
   );
 }

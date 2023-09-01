@@ -28,7 +28,6 @@ export const styles = StyleSheet.create({
     playerMatContainer: {
       flexDirection: 'row',
       width: '100%',
-      //borderColor: 'orange',
       borderWidth: 1,
       alignContent: 'space-between',
       justifyContent: 'space-between',
@@ -40,7 +39,7 @@ export const styles = StyleSheet.create({
       borderColor: 'purple',
       borderWidth: 1,
       width: '18%',
-      padding: 10,
+      padding: 5,
     },
     whiteText: {
       color: 'white',
@@ -125,7 +124,22 @@ export const styles = StyleSheet.create({
       color: 'white',
       textAlign: 'center',
       fontSize: 20,
-    }
+    },
+    row: {
+      flexDirection: 'row',
+    },
+    col: {
+      margin: 4,
+      alignContent: 'center',
+      justifyContent: 'center',
+    },
+    planetButton: {
+      color: 'green',
+      backgroundColor: 'gray',
+    },
+    planetButtonContainer: {
+      margin: 2,
+    },
   });
 
   export const colorsToStyle = {
