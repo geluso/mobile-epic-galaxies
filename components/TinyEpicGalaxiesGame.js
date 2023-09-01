@@ -1,75 +1,26 @@
 import { Button, StyleSheet, Text, View } from 'react-native';
+import PlanetCard from './PlanetCard';
+import { ALL_PLANETS } from '../models/AllPlanets';
 
 export default function TinyEpicGalaxiesGame() {
+  const planets = ALL_PLANETS;
+  const picks = [];
+  for (let i = 0; i < 4; i++) {
+    let index = Math.floor(Math.random() * planets.length);
+    let pick = planets.splice(index, 1)[0];
+    console.log('picked planet', pick);
+    picks.push(pick);
+  }
+
   return (
     <View style={styles.container}>
       <Text style={styles.header}></Text>
 
       <View style={styles.planetMat}>
-        <View style={styles.planet}>
-          <View style={styles.planetTitle}>
-            <Text style={styles.planetName}>Jakks</Text>
-            <Text style={styles.planetType}>#</Text>
-          </View>
-          <Text style={styles.whiteText}>Diplomacy</Text>
-          <Text></Text>
-          <Text style={styles.redPlayer}>1 [ _ _ _ ]</Text>
-          <Text style={styles.greenPlayer}>2 [ _ _ _ ]</Text>
-          <Text style={styles.bluePlayer}>3 [ _ _ _ ]</Text>
-          <Text style={styles.blackPlayer}>4 [ _ _ _ ]</Text>
-          <Text style={styles.yellowPlayer}>5 [ _ _ _ ]</Text>
-          <Text></Text>
-          <Text style={styles.whiteText}>Acquire 1 Culture</Text>
-          <Text style={styles.whiteTextRight}>2</Text>
-        </View>
-        <View style={styles.planet}>
-          <View style={styles.planetTitle}>
-            <Text style={styles.planetName}>Vici</Text>
-            <Text style={styles.planetType}>%</Text>
-          </View>
-          <Text style={styles.whiteText}>Economy</Text>
-          <Text></Text>
-          <Text style={styles.redPlayer}>1 [ _ _ _ ]</Text>
-          <Text style={styles.greenPlayer}>2 [ _ _ _ ]</Text>
-          <Text style={styles.bluePlayer}>3 [ _ _ _ ]</Text>
-          <Text style={styles.blackPlayer}>4 [ _ _ _ ]</Text>
-          <Text style={styles.yellowPlayer}>5 [ _ _ _ ]</Text>
-          <Text></Text>
-          <Text style={styles.whiteText}>Acquire 1 Energy</Text>
-          <Text style={styles.whiteTextRight}>2</Text>
-        </View>
-        <View style={styles.planet}>
-          <View style={styles.planetTitle}>
-            <Text style={styles.planetName}>Drewkaiden</Text>
-            <Text style={styles.planetType}>#</Text>
-          </View>
-          <Text style={styles.whiteText}>Economy</Text>
-          <Text></Text>
-          <Text style={styles.redPlayer}>1 [ _ _ _ ]</Text>
-          <Text style={styles.greenPlayer}>2 [ _ _ _ ]</Text>
-          <Text style={styles.bluePlayer}>3 [ _ _ _ ]</Text>
-          <Text style={styles.blackPlayer}>4 [ _ _ _ ]</Text>
-          <Text style={styles.yellowPlayer}>5 [ _ _ _ ]</Text>
-          <Text></Text>
-          <Text style={styles.whiteText}>Advance +1 Diplomacy</Text>
-          <Text style={styles.whiteTextRight}>2</Text>
-        </View>
-        <View style={styles.planet}>
-          <View style={styles.planetTitle}>
-            <Text style={styles.planetName}>Leandra</Text>
-            <Text style={styles.planetType}>%</Text>
-          </View>
-          <Text style={styles.whiteText}>Diplomacy</Text>
-          <Text></Text>
-          <Text style={styles.redPlayer}>1 [ _ _ _ ]</Text>
-          <Text style={styles.greenPlayer}>2 [ _ _ _ ]</Text>
-          <Text style={styles.bluePlayer}>3 [ _ _ _ ]</Text>
-          <Text style={styles.blackPlayer}>4 [ _ _ _ ]</Text>
-          <Text style={styles.yellowPlayer}>5 [ _ _ _ ]</Text>
-          <Text></Text>
-          <Text style={styles.whiteText}>Advance +1 Economy</Text>
-          <Text style={styles.whiteTextRight}>2</Text>
-        </View>
+        <PlanetCard planet={picks[0]} players={[]} />
+        <PlanetCard planet={picks[1]} players={[]} />
+        <PlanetCard planet={picks[2]} players={[]} />
+        <PlanetCard planet={picks[3]} players={[]} />
       </View>
 
       <View>
