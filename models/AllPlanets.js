@@ -43,8 +43,6 @@ export const ALL_PLANETS = [
     "Gyore;E;6;C;7;Set 1 inactive die to a face of your choice",
 ].map(planet => {
     let [name, progressType, spaces, resourceType, points, text] = planet.split(";");
-    console.log('creating planet', planet.name);
-    
     progressType = textToProgressType(progressType);
     resourceType = textToResourceType(resourceType);
 
@@ -56,6 +54,5 @@ export const ALL_PLANETS = [
 
 export const PLANET_LOOKUP = ALL_PLANETS.reduce((lookup, planet) => {
     lookup[planet.name] = planet;
-    console.log('adding planet to lookup', planet.name);
     return lookup;
 }, {});

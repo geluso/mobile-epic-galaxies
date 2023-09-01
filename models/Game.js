@@ -17,7 +17,9 @@ export class Game {
     }
 
     acquireEnergy() {
+        console.log('energy initial', this.players[0].energy);
         this.players[0].energy++;
+        console.log('energy outitial', this.players[0].energy);
     }
 
     acquireCulture() {
