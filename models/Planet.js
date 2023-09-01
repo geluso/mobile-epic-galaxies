@@ -33,4 +33,15 @@ export class Planet {
         this.points = points;
         this.text = text;
     }
+
+    toJSON() {
+        return {
+            name: this.name,
+            progressType: this.progressType,
+            spaces: this.spaces,
+            resourceType: this.resourceType,
+            points: this.points,
+            text: this.text,
+        };
+    }
 }

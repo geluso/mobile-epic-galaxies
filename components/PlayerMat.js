@@ -8,10 +8,10 @@ export default function PlayerMat({player}) {
         <Text style={color}>{player.energy} %</Text>
         <Text style={color}>{player.culture} #</Text>
         <Text style={color}></Text>
-        <Text style={color}>{player.dice} dice</Text>
-        <Text style={color}>{player.ships} ships</Text>
+        <Text style={color}>{player.level.dice} dice</Text>
+        <Text style={color}>{player.level.ships} ships</Text>
         <Text style={color}></Text>
-        <Text style={color}>Level {player.level}</Text>
+        <Text style={color}>Level {player.level.number}</Text>
     </View>
   )
 }

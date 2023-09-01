@@ -16,13 +16,41 @@ export class Game {
         }
     }
 
+    toJSON() {
+        return {
+            players: this.players.map(player => player.toJSON()),
+            currentPlanets: this.currentPlanets.map(planet => planet.toJSON()),
+        }
+    }
+
+    currentPlayer() {
+        return this.players[0];
+    }
+
     acquireEnergy() {
-        console.log('energy initial', this.players[0].energy);
+        console.log('acquire energy')
         this.players[0].energy++;
-        console.log('energy outitial', this.players[0].energy);
     }
 
     acquireCulture() {
+        console.log('acquire culture')
         this.players[0].culture++;
+    }
+
+    moveShip() {
+        console.log('move ship');
+    }
+
+    colony() {
+        console.log('colony');
+        this.currentPlayer().levelUp();
+    }
+
+    advanceDiplomacy() {
+        console.log('advance diplomacy');
+    }
+
+    advanceEconomy() {
+        console.log('advance economy');
     }
 }

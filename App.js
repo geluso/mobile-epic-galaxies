@@ -1,10 +1,13 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import TinyEpicGalaxiesGame from './components/TinyEpicGalaxiesGame';
 
+import { Game } from './models/Game';
+
 export default function App() {
+  const game = new Game();
   return (
     <View style={styles.container}>
-      <TinyEpicGalaxiesGame />
+      <TinyEpicGalaxiesGame game={game} />
     </View>
   );
 }
