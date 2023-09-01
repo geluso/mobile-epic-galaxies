@@ -21,23 +21,30 @@ export default function PlanetCard({planet, players}) {
         }
     }
 
+    const renderProgressSpaces = () => {
+        let spaces = '';
+        for (let i = 0; i < planet.spaces; i++) {
+            spaces += '_ ';
+        }
+        return '[ ' + spaces + ']';
+    }
 
-  return (
-    <View style={styles.planet}>
-        <View style={styles.planetTitle}>
-        <Text style={styles.planetName}>{planet.name}</Text>
-        <Text style={styles.planetType}>{renderResourceType()}</Text>
+    return (
+        <View style={styles.planet}>
+            <View style={styles.planetTitle}>
+            <Text style={styles.planetName}>{planet.name}</Text>
+            <Text style={styles.planetType}>{renderResourceType()}</Text>
+            </View>
+            <Text style={styles.whiteText}>{renderProgressType()}</Text>
+            <Text></Text>
+            <Text style={styles.redPlayer}>{renderProgressSpaces()}</Text>
+            <Text style={styles.greenPlayer}>{renderProgressSpaces()}</Text>
+            <Text style={styles.bluePlayer}>{renderProgressSpaces()}</Text>
+            <Text style={styles.blackPlayer}>{renderProgressSpaces()}</Text>
+            <Text style={styles.yellowPlayer}>{renderProgressSpaces()}</Text>
+            <Text></Text>
+            <Text style={styles.whiteText}>{planet.text}</Text>
+            <Text style={styles.whiteTextRight}>{planet.points}</Text>
         </View>
-        <Text style={styles.whiteText}>{renderProgressType()}</Text>
-        <Text></Text>
-        <Text style={styles.redPlayer}>1 [ _ _ _ ]</Text>
-        <Text style={styles.greenPlayer}>2 [ _ _ _ ]</Text>
-        <Text style={styles.bluePlayer}>3 [ _ _ _ ]</Text>
-        <Text style={styles.blackPlayer}>4 [ _ _ _ ]</Text>
-        <Text style={styles.yellowPlayer}>5 [ _ _ _ ]</Text>
-        <Text></Text>
-        <Text style={styles.whiteText}>{planet.text}</Text>
-        <Text style={styles.whiteTextRight}>{planet.points}</Text>
-    </View>
-  )
+    )
 }
