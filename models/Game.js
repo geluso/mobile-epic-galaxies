@@ -2,7 +2,7 @@ import { ALL_PLANETS } from '../models/AllPlanets';
 import { Player } from '../models/Player';
 
 import { GameState } from './GameState';
-import { ProgressTypes } from './Planet';
+import { ProgressTypes, ResourceTypes } from './Planet';
 
 export class Game {
     constructor() {
@@ -53,14 +53,48 @@ export class Game {
     acquireEnergy() {
         console.log('acquire energy')
         const player = this.currentPlayer();
-        player.energy++;
+
+        let energy = 0;
+        this.currentPlanets.forEach(planet => {
+            if (planet.resourceType === ResourceTypes.ENERGY) {
+                planet.landedShips.forEach(ship => {
+                    if (ship.player.color === player.color) {
+                        energy++;
+                    }
+                })
+                planet.orbitingShips.forEach(ship => {
+                    if (ship.player.color === player.color) {
+                        energy++;
+                    }
+                })
+            }
+        })
+
+        player.energy += energy;
         player.energy = Math.min(7, player.energy);
     }
 
     acquireCulture() {
         console.log('acquire culture')
         const player = this.currentPlayer();
-        player.culture++;
+
+        let culture = 0;
+        this.currentPlanets.forEach(planet => {
+            if (planet.resourceType === ResourceTypes.CULTURE) {
+                planet.landedShips.forEach(ship => {
+                    if (ship.player.color === player.color) {
+                        culture++;
+                    }
+                })
+                planet.orbitingShips.forEach(ship => {
+                    if (ship.player.color === player.color) {
+                        culture++;
+                    }
+                })
+            }
+        })
+
+        player.culture += culture;
         player.culture = Math.min(7, player.culture);
     }
 
