@@ -21,9 +21,23 @@ export default function PlanetCard({game, planet, update}) {
     }
 
     const renderProgressSpaces = (player) => {
+        const hasShipInPosition = (index) => {
+            for (let i = 0; i < planet.orbitingShips.length; i++) {
+                const shipPosition = planet.orbitingShips[i];
+                if (shipPosition.index === index && shipPosition.player.color === player.color) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
         let spaces = '';
         for (let i = 0; i < planet.spaces; i++) {
-            spaces += '_ ';
+            if (hasShipInPosition(i)) {
+                spaces += 'S ';
+            } else {
+                spaces += '_ ';
+            }
         }
         return 'orbit [ ' + spaces + ']';
     }
@@ -89,11 +103,10 @@ export default function PlanetCard({game, planet, update}) {
                 <Text></Text>
                 <View style={styles.row}>
                     <View style={styles.col}>
-                        <Text style={styles.redPlayer}>{renderProgressSpaces()}</Text>
-                        <Text style={styles.greenPlayer}>{renderProgressSpaces()}</Text>
-                        <Text style={styles.bluePlayer}>{renderProgressSpaces()}</Text>
-                        <Text style={styles.blackPlayer}>{renderProgressSpaces()}</Text>
-                        <Text style={styles.yellowPlayer}>{renderProgressSpaces()}</Text>
+                        {game.players.map((player, i) => {
+                            const style = colorsToStyle(player.color);
+                            return <Text key={i} style={style}>{renderProgressSpaces(player)}</Text>
+                        })}
                     </View>
                     <View style={styles.col}>
                         {renderActionArea()}
