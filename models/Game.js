@@ -14,8 +14,7 @@ export class Game {
         this.planetDeck = [...ALL_PLANETS];
         this.currentPlanets = [];
         for (let i = 0; i < 4; i++) {
-            let index = Math.floor(Math.random() * this.planetDeck.length);
-            let planet = this.planetDeck.splice(index, 1)[0];
+            let planet = this.drawPlanet();
             this.currentPlanets.push(planet);
         }
 
@@ -43,6 +42,12 @@ export class Game {
 
     currentPlayer() {
         return this.players[this.turn % this.players.length];
+    }
+
+    drawPlanet() {
+        let index = Math.floor(Math.random() * this.planetDeck.length);
+        let planet = this.planetDeck.splice(index, 1)[0];
+        return planet;
     }
 
     acquireEnergy() {
@@ -107,6 +112,16 @@ export class Game {
                 if (ship.index === planet.spaces - 1) {
                     // add the planet to the players colonies.
                     player.colonies.push(planet);
+
+                    // replace this planet with a new planet card.
+                    const newPlanet = this.drawPlanet();
+                    this.currentPlanets = this.currentPlanets.map(planetOnTable => {
+                        if (planetOnTable.name !== planet.name) {
+                            return planetOnTable;
+                        } else {
+                            return newPlanet;
+                        }
+                    })
 
                     // TODO: send all ships back home.
                     planet.orbitingShips.forEach(ship => {
