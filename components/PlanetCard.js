@@ -90,6 +90,13 @@ export default function PlanetCard({game, planet, update}) {
 
     const handlePress = () => {
         console.log('pressed planet card:', planet.name);
+        if (game.state === GameState.AdvanceDiplomacy) {
+            game.advanceDiplomacyForPlanet(planet);
+            update();
+        } else if (game.state === GameState.AdvanceEconomy) {
+            game.advanceEconomyForPlanet(planet);
+            update();
+        }
     }
 
     return (

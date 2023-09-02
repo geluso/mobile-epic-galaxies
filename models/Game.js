@@ -2,6 +2,7 @@ import { ALL_PLANETS } from '../models/AllPlanets';
 import { Player } from '../models/Player';
 
 import { GameState } from './GameState';
+import { ProgressTypes } from './Planet';
 
 export class Game {
     constructor() {
@@ -19,6 +20,7 @@ export class Game {
         }
 
         this.state = GameState.ChooseDiceActions;
+        this.error = 'test';
     }
 
     toJSON() {
@@ -27,6 +29,16 @@ export class Game {
             currentPlanets: this.currentPlanets.map(planet => planet.toJSON()),
             state: this.state.description,
         }
+    }
+
+    setState(state) {
+        this.state = state;
+        this.error = false;
+    }
+
+    setStateWithError(state, error) {
+        this.state = state;
+        this.error = error;
     }
 
     currentPlayer() {
@@ -49,22 +61,62 @@ export class Game {
 
     sendShip() {
         console.log('move ship');
-        this.state = GameState.SendShip;
+        this.setState(GameState.SendShip);
     }
 
     colony() {
         console.log('colony');
-        this.state = GameState.ChooseColony;
+        this.setState(GameState.ChooseColony);
     }
 
     advanceDiplomacy() {
         console.log('advance diplomacy');
-        this.state = GameState.AdvanceDiplomacy;
+        this.setState(GameState.AdvanceDiplomacy);
     }
 
     advanceEconomy() {
         console.log('advance economy');
-        this.state = GameState.AdvanceEconomy;
+        this.setState(GameState.AdvanceEconomy);
+    }
+
+    advanceDiplomacyForPlanet(planet) {
+        if (planet.progressType !== ProgressTypes.DIPLOMACY) {
+            const errorMessage = planet.name + ' does does not progress ships via diplomacy.';
+            console.log(errorMessage);
+            this.error = errorMessage;
+            return;
+        }
+        this.agnosticAdvance(planet);
+    }
+
+    advanceEconomyForPlanet(planet) {
+        if (planet.progressType !== ProgressTypes.ECONOMY) {
+            const errorMessage = planet.name + ' does does not progress ships via economy.';
+            console.log(errorMessage);
+            this.error = errorMessage;
+            return;
+        }
+        this.agnosticAdvance(planet);
+    }
+
+    agnosticAdvance(planet) {
+        const player = this.currentPlayer();
+        planet.orbitingShips.forEach(ship => {
+            if (ship.player.color === player.color) {
+                ship.index++;
+                if (ship.index === planet.spaces - 1) {
+                    // add the planet to the players colonies.
+                    player.colonies.push(planet);
+
+                    // TODO: send all ships back home.
+                    planet.orbitingShips.forEach(ship => {
+
+                    });
+                }
+            }
+        })
+
+        this.setState(GameState.ChooseDiceActions);
     }
 
     orbit(planet) {
@@ -74,7 +126,7 @@ export class Game {
         }
 
         planet.orbitingShips.push(position);
-        this.state = GameState.ChooseDiceActions;
+        this.setState(GameState.ChooseDiceActions);
     }
 
     land(planet) {
@@ -84,6 +136,6 @@ export class Game {
         }
 
         planet.landedShips.push(position);
-        this.state = GameState.ChooseDiceActions;
+        this.setState(GameState.ChooseDiceActions);
     }
 }

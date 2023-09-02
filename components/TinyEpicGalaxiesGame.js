@@ -26,20 +26,20 @@ export default function TinyEpicGalaxiesGame({game}) {
   }
 
   const cancel = () => wrapUpdate(() => {
-    game.state = GameState.ChooseDiceActions;
+    game.setState(GameState.ChooseDiceActions);
   });
 
   const renderActionArea = () => {
     if (game.state === GameState.ChooseDiceActions) {
       return <DiceActions wrapUpdate={wrapUpdate} game={game} />
     } else if (game.state === GameState.SendShip) {
-      return <CancelableAction text="Pick ship destination" cancel={cancel} />
+      return <CancelableAction text="Pick ship destination" game={game} cancel={cancel} />
     } else if (game.state === GameState.ChooseColony) {
-      return <CancelableAction text="Pick colony power" cancel={cancel} />
+      return <CancelableAction text="Pick colony power" game={game} cancel={cancel} />
     } else if (game.state === GameState.AdvanceDiplomacy) {
-      return <CancelableAction text="Pick planet to progress" cancel={cancel} />
+      return <CancelableAction text="Pick planet to progress" game={game} cancel={cancel} />
     } else if (game.state === GameState.AdvanceEconomy) {
-      return <CancelableAction text="Pick planet to progress" cancel={cancel} />
+      return <CancelableAction text="Pick planet to progress" game={game} cancel={cancel} />
     }
   }
 

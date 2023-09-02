@@ -44,6 +44,9 @@ export const styles = StyleSheet.create({
     whiteText: {
       color: 'white',
     },
+    redText: {
+      color: 'red',
+    },
     whiteTextRight: {
       color: 'white',
       textAlign: 'right',
