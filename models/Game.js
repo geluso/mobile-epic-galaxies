@@ -119,6 +119,14 @@ export class Game {
             this.setError(errorMessage);
             return;
         }
+
+        const ships = this.playerShipsOrbitingPlanet(this.currentPlayer(), planet);
+        if (ships.length === 0) {
+            const errorMessage = 'You don\t have ships orbiting ' + planet.name;
+            this.setError(errorMessage);
+            return;
+        }
+
         this.agnosticAdvance(planet);
     }
 
@@ -128,7 +136,22 @@ export class Game {
             this.setError(errorMessage);
             return;
         }
+
+        const ships = this.playerShipsOrbitingPlanet(this.currentPlayer(), planet);
+        if (ships.length === 0) {
+            const errorMessage = 'You don\t have ships orbiting ' + planet.name;
+            this.setError(errorMessage);
+            return;
+        }
+
         this.agnosticAdvance(planet);
+    }
+
+    playerShipsOrbitingPlanet(player, planet) {
+        const ships = planet.orbitingShips.filter(ship => {
+            return ship.player.color === player.color;
+        });
+        return ships;
     }
 
     agnosticAdvance(planet) {
