@@ -1,13 +1,12 @@
 import { ALL_PLANETS } from '../models/AllPlanets';
 import { Player } from '../models/Player';
 
+import { Die } from './Die';
 import { GameState } from './GameState';
 import { ProgressTypes, ResourceTypes } from './Planet';
 
 export class Game {
     constructor() {
-        this.turn = 0;
-
         const playerColors = ['red', 'blue', 'green', 'black', 'yellow'];
         this.players = playerColors.map(color => new Player(color));
 
@@ -18,15 +17,19 @@ export class Game {
             this.currentPlanets.push(planet);
         }
 
-        this.state = GameState.ChooseDiceActions;
+        this.state = GameState.InitiateRoll;
         this.error = 'test';
+
+        this.turn = 0;
+        this.dicePool = [];
     }
 
     toJSON() {
         return {
+            state: this.state.description,
             players: this.players.map(player => player.toJSON()),
             currentPlanets: this.currentPlanets.map(planet => planet.toJSON()),
-            state: this.state.description,
+            dicePool: this.dicePool,
         }
     }
 
@@ -49,10 +52,39 @@ export class Game {
         return this.players[this.turn % this.players.length];
     }
 
+    endTurn() {
+        this.turn++;
+        this.setState(GameState.InitiateRoll);
+    }
+
     drawPlanet() {
         let index = Math.floor(Math.random() * this.planetDeck.length);
         let planet = this.planetDeck.splice(index, 1)[0];
         return planet;
+    }
+
+    rollDice() {
+        console.log('rolling dice');
+        const player = this.currentPlayer();
+        const dice = [];
+        for (let i = 0; i < player.level.dice; i++) {
+           dice.push(new Die());
+        }
+        this.dicePool = dice;
+        console.log('rolling dice dice pool:', this.dicePool);
+        this.setState(GameState.ChooseDiceActions);
+    }
+
+    rerollAllDice() {
+        console.log('rolling dice');
+        const player = this.currentPlayer();
+        const dice = [];
+        for (let i = 0; i < player.level.dice; i++) {
+           dice.push(new Die());
+        }
+        this.dicePool = dice;
+        console.log('rolling dice dice pool:', this.dicePool);
+        this.setState(GameState.ChooseDiceActions);
     }
 
     acquireEnergy() {

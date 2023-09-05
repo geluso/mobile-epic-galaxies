@@ -1,6 +1,5 @@
 import { styles } from '../../assets/styles';
 import { View, Text, Button } from 'react-native';
-import EmptyBreak from '../EmptyBreak';
 
 export default function CancelableAction({game, text, cancel}) {
   console.log('send ship action')

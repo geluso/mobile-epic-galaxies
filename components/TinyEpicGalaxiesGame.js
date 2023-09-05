@@ -6,9 +6,10 @@ import PlanetCard from './PlanetCard';
 import EmptyBreak from './EmptyBreak';
 
 import { useState } from 'react';
-import DiceActions from './DiceActions';
+import DicePool from './DicePool';
 
 import { GameState } from '../models/GameState';
+import ActionPrompt from './ActionAreas/ActionPrompt';
 import CancelableAction from './ActionAreas/CancelableAction';
 
 export default function TinyEpicGalaxiesGame({game}) {
@@ -30,8 +31,10 @@ export default function TinyEpicGalaxiesGame({game}) {
   });
 
   const renderActionArea = () => {
-    if (game.state === GameState.ChooseDiceActions) {
-      return <DiceActions wrapUpdate={wrapUpdate} game={game} />
+    if (game.state === GameState.InitiateRoll) {
+      return <ActionPrompt game={game} update={update} text="Roll dice" />
+    } else if (game.state === GameState.ChooseDiceActions) {
+      return <DicePool wrapUpdate={wrapUpdate} game={game} />
     } else if (game.state === GameState.SendShipOrigin) {
       return <CancelableAction text="Pick ship origin" game={game} cancel={cancel} />
     } else if (game.state === GameState.SendShipDestination) {

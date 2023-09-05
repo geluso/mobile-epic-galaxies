@@ -1,4 +1,6 @@
 export const GameState = {
+    InitiateRoll: Symbol('InitiateRoll'),
+
     ChooseDiceActions: Symbol('ChooseDiceActions'),
     FreeBatchReroll: Symbol('FreeBatchReroll'),
     RerollOneDie: Symbol('RerollOneDie'),

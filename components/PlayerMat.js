@@ -15,9 +15,10 @@ export default function PlayerMat({game, player, update}) {
   };
 
   const color = colorsToStyle(player.color);
+  const turnColor = game.currentPlayer().color === player.color ? styles.playerMatCurrentTurn : styles.playerMat;
   return (
     <TouchableNativeFeedback onPress={handlePress}>
-      <View style={styles.playerMat}>
+      <View style={turnColor}>
           <Text style={color}>{player.energy}% {player.culture}#</Text>
           <Text style={color}>{player.level.number}: {player.level.dice}d {player.level.ships}s</Text>
       </View>
