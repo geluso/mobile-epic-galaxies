@@ -5,9 +5,9 @@ export class Player {
         this.color = color;
         this.energy = 2;
         this.culture = 1;
+        this.colonies = [];
 
         this.level = Levels.getLevel(1);
-        this.colonies = [];
     }
 
     toJSON() {

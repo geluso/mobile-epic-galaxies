@@ -35,9 +35,14 @@ export class Game {
         this.error = false;
     }
 
+    setError(error) {
+        console.log('ERROR:', error);
+        this.error = error;
+    }
+
     setStateWithError(state, error) {
         this.state = state;
-        this.error = error;
+        this.setError(state, error)
     }
 
     currentPlayer() {
@@ -98,9 +103,14 @@ export class Game {
         player.culture = Math.min(7, player.culture);
     }
 
-    sendShip() {
+    sendShipOrigin() {
         console.log('move ship');
-        this.setState(GameState.SendShip);
+        this.setState(GameState.SendShipOrigin);
+    }
+
+    sendShipDestination() {
+        console.log('move ship');
+        this.setState(GameState.SendShipDestination);
     }
 
     colony() {
@@ -121,8 +131,7 @@ export class Game {
     advanceDiplomacyForPlanet(planet) {
         if (planet.progressType !== ProgressTypes.DIPLOMACY) {
             const errorMessage = planet.name + ' does does not progress ships via diplomacy.';
-            console.log(errorMessage);
-            this.error = errorMessage;
+            this.setError(errorMessage);
             return;
         }
         this.agnosticAdvance(planet);
@@ -131,8 +140,7 @@ export class Game {
     advanceEconomyForPlanet(planet) {
         if (planet.progressType !== ProgressTypes.ECONOMY) {
             const errorMessage = planet.name + ' does does not progress ships via economy.';
-            console.log(errorMessage);
-            this.error = errorMessage;
+            this.setError(errorMessage);
             return;
         }
         this.agnosticAdvance(planet);
@@ -169,13 +177,42 @@ export class Game {
     }
 
     orbit(planet) {
+        const player = this.currentPlayer();
+        if (this.state === GameState.SendShipOrigin) {
+            this.orbitLeave(planet, player);
+        } else if (this.state === GameState.SendShipDestination) {
+            this.orbitEnter(planet, player);
+        }
+    }
+
+    orbitEnter(planet, player) {
         const position = {
-            player: this.currentPlayer(),
+            player,
             index: 0,
         }
 
         planet.orbitingShips.push(position);
         this.setState(GameState.ChooseDiceActions);
+    }
+
+    orbitLeave(planet, player) {
+        let playerShipCount = 0;
+        console.log('orbit leave:', planet.orbitingShips);
+        planet.orbitingShips = planet.orbitingShips.filter(ship => {
+            const isPlayerShip = ship.player.color === player.color;
+            if (isPlayerShip) {
+                playerShipCount++;
+            }
+            return !isPlayerShip;
+        });
+        console.log('orbit leave filtered:', planet.orbitingShips);
+
+        if (playerShipCount > 0) {
+            this.setState(GameState.SendShipDestination);
+        } else {
+            const errorMessage = 'You do not have ships orbiting ' + planet.name;
+            this.setError(errorMessage);
+        }
     }
 
     land(planet) {
@@ -185,6 +222,14 @@ export class Game {
         }
 
         planet.landedShips.push(position);
+        this.setState(GameState.ChooseDiceActions);
+    }
+
+    shipDepartHomeGalaxy() {
+        this.setState(GameState.SendShipDestination);
+    }
+
+    shipEnterHomeGalaxy() {
         this.setState(GameState.ChooseDiceActions);
     }
 }

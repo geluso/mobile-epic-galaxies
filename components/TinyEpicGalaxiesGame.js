@@ -32,7 +32,9 @@ export default function TinyEpicGalaxiesGame({game}) {
   const renderActionArea = () => {
     if (game.state === GameState.ChooseDiceActions) {
       return <DiceActions wrapUpdate={wrapUpdate} game={game} />
-    } else if (game.state === GameState.SendShip) {
+    } else if (game.state === GameState.SendShipOrigin) {
+      return <CancelableAction text="Pick ship origin" game={game} cancel={cancel} />
+    } else if (game.state === GameState.SendShipDestination) {
       return <CancelableAction text="Pick ship destination" game={game} cancel={cancel} />
     } else if (game.state === GameState.ChooseColony) {
       return <CancelableAction text="Pick colony power" game={game} cancel={cancel} />
@@ -52,7 +54,7 @@ export default function TinyEpicGalaxiesGame({game}) {
       </View>
 
       <View style={styles.playerMatContainer}>
-        {state.players.map((player, i) => <PlayerMat key={i} player={player} />)}
+        {state.players.map((player, i) => <PlayerMat key={i} game={game} player={player} update={update} />)}
       </View>
 
       <EmptyBreak />

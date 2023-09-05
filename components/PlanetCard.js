@@ -65,7 +65,7 @@ export default function PlanetCard({game, planet, update}) {
     }
 
     const renderActionArea = () => {
-        if (game.state === GameState.SendShip) {
+        if (game.state === GameState.SendShipDestination || game.state === GameState.SendShipOrigin) {
             return (
                 <View>
                     <View style={styles.planetButtonContainer}>

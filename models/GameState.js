@@ -3,7 +3,8 @@ export const GameState = {
     FreeBatchReroll: Symbol('FreeBatchReroll'),
     RerollOneDie: Symbol('RerollOneDie'),
 
-    SendShip: Symbol('SendShip'),
+    SendShipOrigin: Symbol('SendShipOrigin'),
+    SendShipDestination: Symbol('SendShipDestination'),
     ChooseColony: Symbol('ChooseColony'),
     AdvanceDiplomacy: Symbol('AdvanceDiplomacy'),
     AdvanceEconomy: Symbol('AdvanceEconomy'),
