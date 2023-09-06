@@ -1,3 +1,5 @@
+export const MAX_LEVEL = 6;
+
 export const LevelStats = {
     1: {
         number: 1,

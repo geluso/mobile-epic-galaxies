@@ -25,6 +25,12 @@ export const styles = StyleSheet.create({
       margin: 2,
       padding: 10,
     },
+    colonyPower: {
+      borderColor: 'yellow',
+      borderWidth: 1,
+      margin: 2,
+      padding: 10,
+    },
     playerMatContainer: {
       flexDirection: 'row',
       width: '100%',

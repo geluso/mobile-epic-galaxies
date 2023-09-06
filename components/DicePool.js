@@ -31,7 +31,7 @@ export default function DicePool({game, wrapUpdate}) {
             action = () => game.advanceEconomy();
         }
 
-        return <Dice index={index} action={label} game={game} clickHandler={() => wrapUpdate(() => action())} />
+        return <Dice key={index} action={label} game={game} clickHandler={() => wrapUpdate(() => action())} />
     };
 
     return (

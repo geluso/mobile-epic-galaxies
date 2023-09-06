@@ -3,6 +3,7 @@ import { View, Text } from 'react-native';
 
 import PlayerMat from './PlayerMat';
 import PlanetCard from './PlanetCard';
+import ColonyPowers from './ColonyPowers';
 import EmptyBreak from './EmptyBreak';
 
 import { useState } from 'react';
@@ -30,6 +31,16 @@ export default function TinyEpicGalaxiesGame({game}) {
     game.setState(GameState.ChooseDiceActions);
   });
 
+  const renderPlanetCardColonyPowerArea = () => {
+    if (game.state === GameState.ChooseColony) {
+      return <ColonyPowers game={game} update={update} />
+    } else {
+      return <View style={styles.planetMat}>
+        {game.currentPlanets.map((planet, i) => <PlanetCard key={i} game={game} planet={planet} update={update} />)}
+      </View>
+    }
+  };
+
   const renderActionArea = () => {
     if (game.state === GameState.InitiateRoll) {
       return <ActionPrompt game={game} update={update} text="Roll dice" />
@@ -52,9 +63,7 @@ export default function TinyEpicGalaxiesGame({game}) {
     <View style={styles.container}>
       <EmptyBreak />
 
-      <View style={styles.planetMat}>
-        {game.currentPlanets.map((planet, i) => <PlanetCard key={i} game={game} planet={planet} update={update} />)}
-      </View>
+      {renderPlanetCardColonyPowerArea()}
 
       <View style={styles.playerMatContainer}>
         {state.players.map((player, i) => <PlayerMat key={i} game={game} player={player} update={update} />)}
